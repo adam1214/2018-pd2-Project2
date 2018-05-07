@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QModelIndex>
 #include <QItemDelegate>
-#include <Qsize>
+//#include <Qsize>
 #include <QSpinBox>
 
 class Delegate : public QItemDelegate

@@ -11,7 +11,7 @@
 #include<QTableWidgetItem>
 #include<QDebug>
 #include "mainwindow.h"
-
+#include <QFile>
 
 int sudoku[81];
 int tempNum[81];
@@ -22,6 +22,17 @@ int startB[81];
 int addH[9];
 int addV[9];
 int addB[9];
+static int a[9][9]={
+                    1,4,5,3,2,7,6,9,8,
+                    8,3,9,6,5,4,1,2,7,
+                    6,7,2,9,1,8,5,4,3,
+                    4,9,6,1,8,5,3,7,2,
+                    2,1,8,4,7,3,9,5,6,
+                    7,5,3,2,9,6,4,8,1,
+                    3,6,7,5,4,2,8,1,9,
+                    9,8,4,7,6,1,2,3,5,
+                    5,2,1,8,3,9,7,6,4
+                };
 
 int init()
 {
@@ -98,17 +109,120 @@ D3::D3(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::D3)
 {
-    FILE *sample;
-    sample=fopen("sample.txt","r");
-    for(int i=0;i<9;i++)
+    /*QFile file("sample");
+    file.open(QIODevice::ReadOnly);
+    int s=-1;
+    while(!file.atEnd())
     {
-        for(int j=0;j<9;j++)
+        QString str=file.readLine();
+
+        s=s+1;
+        for(int j=0;j<=9;j++)
         {
-            fscanf(sample,"%d",&a[i][j]);
-            qDebug() << a[i][j];
+            a[s][j]=str[j].unicode()-'1'+1;
         }
-        fscanf(sample,"\n");
-    }
+    }*/
+    /*a[9][9]={
+                    1,4,5,3,2,7,6,9,8,
+                    8,3,9,6,5,4,1,2,7,
+                    6,7,2,9,1,8,5,4,3,
+                    4,9,6,1,8,5,3,7,2,
+                    2,1,8,4,7,3,9,5,6,
+                    7,5,3,2,9,6,4,8,1,
+                    3,6,7,5,4,2,8,1,9,
+                    9,8,4,7,6,1,2,3,5,
+                    5,2,1,8,3,9,7,6,4
+                };*/
+    a[0][0]=1;
+    a[0][1]=4;
+    a[0][2]=5;
+    a[0][3]=3;
+    a[0][4]=2;
+    a[0][5]=7;
+    a[0][6]=6;
+    a[0][7]=9;
+    a[0][8]=8;
+
+    a[1][0]=8;
+    a[1][1]=3;
+    a[1][2]=9;
+    a[1][3]=6;
+    a[1][4]=5;
+    a[1][5]=4;
+    a[1][6]=1;
+    a[1][7]=2;
+    a[1][8]=7;
+
+    a[2][0]=6;
+    a[2][1]=7;
+    a[2][2]=2;
+    a[2][3]=9;
+    a[2][4]=1;
+    a[2][5]=8;
+    a[2][6]=5;
+    a[2][7]=4;
+    a[2][8]=3;
+
+    a[3][0]=4;
+    a[3][1]=9;
+    a[3][2]=6;
+    a[3][3]=1;
+    a[3][4]=8;
+    a[3][5]=5;
+    a[3][6]=3;
+    a[3][7]=7;
+    a[3][8]=2;
+
+    a[4][0]=2;
+    a[4][1]=1;
+    a[4][2]=8;
+    a[4][3]=4;
+    a[4][4]=7;
+    a[4][5]=3;
+    a[4][6]=9;
+    a[4][7]=5;
+    a[4][8]=6;
+
+    a[5][0]=7;
+    a[5][1]=5;
+    a[5][2]=3;
+    a[5][3]=2;
+    a[5][4]=9;
+    a[5][5]=6;
+    a[5][6]=4;
+    a[5][7]=8;
+    a[5][8]=1;
+
+    a[6][0]=3;
+    a[6][1]=6;
+    a[6][2]=7;
+    a[6][3]=5;
+    a[6][4]=4;
+    a[6][5]=2;
+    a[6][6]=8;
+    a[6][7]=1;
+    a[6][8]=9;
+
+    a[7][0]=9;
+    a[7][1]=8;
+    a[7][2]=4;
+    a[7][3]=7;
+    a[7][4]=6;
+    a[7][5]=1;
+    a[7][6]=2;
+    a[7][7]=3;
+    a[7][8]=5;
+
+    a[8][0]=5;
+    a[8][1]=2;
+    a[8][2]=1;
+    a[8][3]=8;
+    a[8][4]=3;
+    a[8][5]=9;
+    a[8][6]=7;
+    a[8][7]=6;
+    a[8][8]=4;
+
     //先做旋轉
     int a1[9][9];
     int r1=rand()%4,k,i,j,con,temp;
@@ -353,12 +467,16 @@ D3::D3(QWidget *parent) :
             {
                 QTableWidgetItem* item = new QTableWidgetItem();
                 ui->tableWidget->setItem(row,col,item);
+                item->setTextAlignment((Qt::AlignCenter));
+
             }
             if(a[row][col]!=0)
             {
                 QTableWidgetItem* item = new QTableWidgetItem(QString::number(a[row][col]));
                 ui->tableWidget->setItem(row,col,item);
-                //item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+                item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+                item->setBackgroundColor(QColor(200,111,100));
+                item->setTextAlignment((Qt::AlignCenter));
             }
         }
     }
@@ -403,7 +521,7 @@ void D3::on_pushButton_clicked()
     {
         for(i=0;i<9;i++)
         {
-            arr_untiy[j]=0;
+            arr_untiy[i]=0;
         }
         for(i=0;i<9;i++)
         {
@@ -553,6 +671,11 @@ void D3::on_pushButton_clicked()
 }
 void D3::on_pushButton_2_clicked()
 {
+    int sudoku2[81];
+    for(int i=0;i<81;i++)
+    {
+        sudoku2[i]=sudoku[i];
+    }
     init();
     tryAns();
     int b[9][9]={0};
@@ -561,21 +684,42 @@ void D3::on_pushButton_2_clicked()
         {
             b[i][j]=sudoku[i*9+j];
         }
+
+
     for(int row=0;row<9;row++)
     {
         for(int col=0;col<9;col++)
         {
-          ui->tableWidget->setItem(row,col,new QTableWidgetItem(QString::number(b[row][col])));
+            QTableWidgetItem* item = new QTableWidgetItem(QString::number(b[row][col]));
+            ui->tableWidget->setItem(row,col,item);
+            item->setTextAlignment((Qt::AlignCenter));
+            if(sudoku2[row*9+col]!=0)
+            {
+                 item->setBackgroundColor(QColor(200,111,100));
+            }
         }
     }
+    /*QString str;
+    int cnt=0;
+    for(int i=0;i<81;++i)
+    {
+        str.append(QString::number(sudoku2[i]));
+        str.append(' ');
+        cnt++;
+        if(cnt==9)
+        {
+            cnt=0;
+            str.append('\n');
+        }
+    }*/
+    //ui->textEdit->setPlainText(str);
 }
-
-void D3::on_tableWidget_cellDoubleClicked()
+/*void D3::on_tableWidget_cellDoubleClicked(int row, int column)
 {
-    int current_row=ui->tableWidget->currentRow();
-    int current_col=ui->tableWidget->currentColumn();
-    QTableWidgetItem* item = ui->tableWidget->item(current_row,current_col);
-    a[current_row][current_col]=item->text().toInt();
+    //int current_row=ui->tableWidget->currentRow();
+    //int current_col=ui->tableWidget->currentColumn();
+    QTableWidgetItem* item = ui->tableWidget->item(row,column);
+    a[row][column]=item->text().toInt();
     QString str;
     for(int i=0;i<9;++i)
     {
@@ -590,4 +734,26 @@ void D3::on_tableWidget_cellDoubleClicked()
         }
     }
     ui->textEdit->setPlainText(str);
+}*/
+
+void D3::on_tableWidget_itemChanged(QTableWidgetItem *item)
+{
+    int current_row=ui->tableWidget->currentRow();
+    int current_col=ui->tableWidget->currentColumn();
+    //QTableWidgetItem* item = ui->tableWidget->item(row,column);
+    a[current_row][current_col]=item->text().toInt();
+    /*QString str;
+    for(int i=0;i<9;++i)
+    {
+        for(int j=0;j<9;++j)
+        {
+            str.append(QString::number(a[i][j]));
+            str.append(' ');
+            if(j==8)
+            {
+                str.append('\n');
+            }
+        }
+    }
+    ui->textEdit->setPlainText(str);*/
 }

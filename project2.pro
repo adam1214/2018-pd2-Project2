@@ -26,23 +26,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    d2.cpp \
     delegate.cpp \
     true.cpp \
     false.cpp \
-    d3.cpp
+    d3.cpp \
+    d4.cpp
 
 HEADERS += \
         mainwindow.h \
-    d2.h \
     delegate.h \
     true.h \
     false.h \
-    d3.h
+    d3.h \
+    d4.h
 
 FORMS += \
         mainwindow.ui \
-    d2.ui \
     true.ui \
     false.ui \
-    d3.ui
+    d3.ui \
+    d4.ui
